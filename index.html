@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Simple</title>
     <style>
+        html, body {
+            height: 100%; /* Assurez-vous que le corps prend toute la hauteur */
+        }
+
         body {
             background-color: #080404;
             margin: 0;
             font-family: Arial, sans-serif;
             color: white;
+            display: flex; /* Utilisez flexbox pour centrer le contenu */
+            justify-content: center; /* Centre horizontalement */
+            align-items: center; /* Centre verticalement */
+            flex-direction: column; /* Permet de placer le nav et le texte l'un sous l'autre */
         }
+
         nav {
             background-color: rgba(0, 0, 0, 0.5); /* Fond noir transparent */
             backdrop-filter: blur(10px); /* Effet de flou */
@@ -20,9 +29,8 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            display: flex;
-            justify-content: space-around; /* Espacement des catégories */
         }
+
         nav a {
             color: white;
             text-decoration: none;
@@ -31,24 +39,84 @@
             position: relative;
             display: inline-block;
         }
-        /* Animation de la ligne blanche */
-        nav a::after {
+
+        nav a:not(.button-contact)::after { /* Applique l'animation uniquement aux autres liens */
             content: '';
+            display: block;
+            width: 0; /* Largeur initiale */
+            height: 3px; /* Hauteur de la ligne */
+            background: white; /* Couleur de la ligne */
+            transition: width 0.3s; /* Animation de largeur */
             position: absolute;
-            width: 0%;
-            height: 2px;
-            background-color: white;
-            bottom: -5px;
-            left: 0;
-            transition: width 0.4s ease-in-out;
+            left: 50%; /* Positionnement */
+            bottom: -5px; /* Position de la ligne sous le lien */
+            transform: translateX(-50%); /* Centrage */
         }
-        nav a:hover::after {
-            width: 100%;
+
+        nav a:not(.button-contact):hover::after { /* Largeur au survol pour les autres liens */
+            width: 100%; /* Largeur au survol */
         }
-        h1 {
-            text-align: center;
-            margin-top: 20%;
-            font-size: 3rem;
+
+        /* Style moderne du bouton pour Contact */
+        .button-contact {
+            background-color: transparent; /* Fond transparent */
+            color: white; /* Couleur du texte en blanc */
+            padding: 10px 20px; /* Espacement interne */
+            border: 2px solid white; /* Contour blanc */
+            border-radius: 30px; /* Coins arrondis */
+            backdrop-filter: blur(5px); /* Effet de flou blanc */
+            transition: background-color 0.3s, transform 0.2s; /* Transition douce */
+        }
+
+        .button-contact:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Fond flou blanc au survol */
+            transform: scale(1.05); /* Agrandissement au survol */
+        }
+
+        .typing-effect {
+            text-align: center; /* Centre le texte à l'intérieur de son conteneur */
+            font-size: 5rem; /* Taille de police augmentée */
+            font-weight: bold; /* Texte en gras */
+            white-space: nowrap; /* Évite le passage à la ligne */
+            overflow: hidden; /* Cache le texte débordant */
+            border-right: 4px solid white; /* Curseur d'écriture */
+            animation: caret 0.8s steps(1) infinite; /* Animation du curseur */
+        }
+
+        @keyframes caret {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: white; }
+        }
+
+        /* Nouveau bouton moderne avec flèche */
+        .modern-button {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.1); /* Fond transparent flou */
+            border: 2px solid black; /* Contour noir */
+            border-radius: 15px; /* Bords arrondis */
+            padding: 15px 30px; /* Espacement interne */
+            color: white; /* Couleur du texte en blanc */
+            font-size: 1.5rem; /* Taille de police */
+            text-align: center; /* Centre le texte */
+            cursor: pointer; /* Curseur pointer */
+            transition: transform 0.3s, background-color 0.3s; /* Animation pour le survol */
+            backdrop-filter: blur(10px); /* Effet de flou */
+        }
+
+        .modern-button:hover {
+            transform: scale(1.1); /* Agrandissement au survol */
+            background-color: rgba(255, 255, 255, 0.2); /* Fond flou blanc au survol */
+        }
+
+        .arrow {
+            display: inline-block;
+            margin-left: 10px; /* Espacement entre le texte et la flèche */
+            transform: translateY(5px); /* Ajustement vertical de la flèche */
+            transition: transform 0.3s; /* Transition pour la flèche */
+        }
+
+        .modern-button:hover .arrow {
+            transform: translateY(10px); /* Déplacement vers le bas au survol */
         }
     </style>
 </head>
@@ -58,9 +126,54 @@
         <a href="#">À propos</a>
         <a href="#">Projets</a>
         <a href="#">Compétences</a>
-        <a href="#">Contact</a>
+        <a href="#" class="button-contact">Contact</a> <!-- Nouveau style de bouton -->
     </nav>
 
-    <h1>Bienvenue sur mon site simple</h1>
+    <div class="typing-effect" id="typing-effect"></div>
+
+    <!-- Nouveau bouton moderne avec flèche -->
+    <button class="modern-button">
+        Découvrez
+        <span class="arrow">⬇️</span> <!-- Flèche pointant vers le bas -->
+    </button>
+
+    <script>
+        const phrases = [
+            "Nicolas HOULES",
+            "Développement Web",
+            "Cyber-sécurité",
+        ];
+
+        let index = 0;
+        let currentPhrase = '';
+        let letterIndex = 0;
+
+        function type() {
+            if (letterIndex < phrases[index].length) {
+                currentPhrase += phrases[index][letterIndex];
+                document.getElementById('typing-effect').textContent = currentPhrase;
+                letterIndex++;
+                setTimeout(type, 100); // Vitesse d'écriture
+            } else {
+                setTimeout(deleteText, 1000); // Temps avant de supprimer
+            }
+        }
+
+        function deleteText() {
+            if (letterIndex > 0) {
+                currentPhrase = currentPhrase.slice(0, -1);
+                document.getElementById('typing-effect').textContent = currentPhrase;
+                letterIndex--;
+                setTimeout(deleteText, 50); // Vitesse de suppression
+            } else {
+                index = (index + 1) % phrases.length; // Passe à la phrase suivante
+                letterIndex = 0;
+                setTimeout(type, 500); // Temps avant de commencer à écrire la nouvelle phrase
+            }
+        }
+
+        // Démarre l'animation
+        type();
+    </script>
 </body>
 </html>
