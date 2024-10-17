@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Simple</title>
+    <style>
+        body {
+            background-color: #080404;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        nav {
+            background-color: rgba(0, 0, 0, 0.5); /* Fond noir transparent */
+            backdrop-filter: blur(10px); /* Effet de flou */
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around; /* Espacement des catégories */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+        }
+        /* Animation de la ligne blanche */
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: white;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.4s ease-in-out;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20%;
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="#">Projets</a>
+        <a href="#">Compétences</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <h1>Bienvenue sur mon site simple</h1>
+</body>
+</html>
